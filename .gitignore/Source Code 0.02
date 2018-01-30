@@ -1,0 +1,128 @@
+//logging in the bot
+const Discord = require("discord.js");
+const bot = new Discord.Client();
+var cleverbot = require("cleverbot.io"),
+cbot = new cleverbot("02jpGIExkRVgrTIa", "UhDuheaS6nYcMSKr3unShnUoDaS7tf7X"); // Set up keys
+
+var balance;
+
+//#region References
+/*
+bot.user = bot name
+
+
+*/
+//#endregion
+
+//to do:
+//eco
+//urban dictionary
+
+
+/*
+
+        By Default, the bot will reply to any message with the @[player],  to remove the @, do
+        //message.channel.sendMessage(message);
+
+*/
+
+//#region Commands
+
+//if there is a message
+bot.on('message', (message) => {
+
+    //#region Ping
+    if(message.content == '$ping')
+    {//if the message is "$ping"
+        //reply with "pong"
+        message.reply('pong');
+
+    }
+    //#endregion
+
+    //#region DisneyQuote
+    else if(message.content == "$DisneyQuote")
+    {//if the message is "$DisneyQuote"
+
+        //quote list
+        var QuoteList = ["If you keep believing, the dream that you wish will come true. - Cinderella", "This is totally a disney quote - Dillion"];
+
+        //gets a random quote from the array
+        var RandomQuote = QuoteList[Math.floor(Math.random() * Quote.length)];
+
+
+        //replies with message
+        message.reply(RandomQuote);
+    }
+//#endregion
+    
+    //#region Is You Ded?
+    else if(message.content == "$is you ded")
+    {
+        message.reply("no u");
+    }
+
+    //#endregion
+
+    //#region  ily
+    else if(message.content == "$ily")
+    {
+        //quote list
+        var Responses = ["I love you too", "Sorry, I love Ellissa", "Ty", "I love you too, but this isn't working for me", "k", "I love you too daddy", "I love food more", "I love you more", "I hate you too", "ily2", "ihy2", "Was that sarcastic?", "I love me too", "No, I want to be friends.", "I love you too mommy", "I love you too, you filthy beast!", "-shrug-", "nO bITCH", "Can we just be friends? #FriendZoned #NotClickBait #sorrynotsorry"];
+
+        //gets a random quote from the array
+        var Response = Responses[Math.floor(Math.random() * Responses.length)];
+
+
+        //replies with message
+        message.reply(Response);
+    }
+    //#endregion
+
+    //#region  Echo
+
+        else if (message.content.substring(0, 5) == "$echo")
+        {//if it's a echo
+
+        //reply everything after "echo";
+            message.reply(message.content.substring(6,message.length));
+        }
+
+    //#endregion
+
+    //#region Eco
+
+    //#region  Bal
+
+        if(message.content == "$bal")
+        {
+            message.reply(" Your Balance is: " + message.author.balance);
+        }
+
+
+    //#endregion
+
+
+    
+    else if(message.content.substring(0,3) == "$cb")
+    {
+
+        cbot.setNick("sandbox.test"); // Set a nickname
+    
+        cbot.create(function (err, session) { // Initialize Cleverbot
+        
+            cbot.ask(message.content, function (err, response) {
+             message.reply(response);
+         });
+     });
+    }
+});
+
+
+
+
+
+//#endregion
+
+
+bot.login('NDA3NjMyNTE0NTkzNzE4Mjcz.DVFAbw.WVc_2NybndLcTeMZj3gQqQqUdPE');
