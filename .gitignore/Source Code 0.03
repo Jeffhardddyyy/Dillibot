@@ -1,0 +1,176 @@
+//logging in the bot
+const Discord = require("discord.js");
+var cleverbot = require("cleverbot.io"),
+bot = new Discord.Client();
+cbot = new cleverbot("02jpGIExkRVgrTIa", "UhDuheaS6nYcMSKr3unShnUoDaS7tf7X"); // Set up keys
+var prefix = '$'
+
+
+//#region Commands
+
+//if there is a message
+bot.on('message', (message) => {
+
+
+    //everything below here is after 0.02
+    
+    //#region Ping
+    if(message.content == prefix + 'ping')
+    {//if the message is "$ping"
+        //reply with "pong"
+        message.reply('pong');
+
+    }
+    //#endregion
+
+    //#region DisneyQuote
+    else if(message.content == prefix + "DisneyQuote")
+    {//if the message is "$DisneyQuote"
+
+        //quote list
+        var QuoteList = ["If you keep believing, the dream that you wish will come true. - Cinderella", "“Look at that, Abu! It’s not every day you see a horse with two rear ends.” - Aladdin", "“You know how men are. They think ‘No’ means ‘Yes’ and ‘Get lost’ means ‘Take me, I’m yours.’” - Meg, Hercules", "We're not aiming for the truck! - Buzz Lightyear, Toy Story", "There's a snake in my boot! - Woody, Toy Story", "“What do you want me to do, dress in drag and do the hula?” - Timon, Lion King", "Haku matata - Timon, Lion King"];
+
+        //gets a random quote from the array
+        var RandomQuote = QuoteList[Math.floor(Math.random() * QuoteList.length)];
+
+
+        //replies with message
+        message.reply(RandomQuote);
+    }
+//#endregion
+
+    //#region  ily
+    else if(message.content == prefix + "ily")
+    {
+        //quote list
+        var Responses = ["I love you too", "Sorry, I love Ellissa", "Ty", "I love you too, but this isn't working for me", "k", "I love you too daddy", "I love food more", "I love you more", "I hate you too", "ily2", "ihy2", "Was that sarcastic?", "I love me too", "No, I want to be friends.", "I love you too mommy", "I love you too, you filthy beast!", "-shrug-", "nO bITCH", "Can we just be friends? #FriendZoned #NotClickBait #sorrynotsorry"];
+
+        //gets a random quote from the array
+        var Response = Responses[Math.floor(Math.random() * Responses.length)];
+
+
+        //replies with message
+        message.reply(Response);
+    }
+    //#endregion
+
+    //#region  Echo
+
+        else if (message.content.substring(0, 5) == prefix+"echo")
+        {//if it's a echo
+
+        //reply everything after "echo";
+            message.reply(message.content.substring(6,message.length));
+        }
+
+    //#endregion
+
+
+    //Everything below here is after 0.03
+
+    //#region CB
+    else if(message.content.substring(0,3) == "$cb")
+    {
+
+        cbot.setNick("sandbox.test"); // Set a nickname
+    
+        cbot.create(function (err, session) { // Initialize Cleverbot
+        
+            cbot.ask(message.content, function (err, response) {
+             message.reply(response);
+         });
+     });
+    }
+
+    //#endregion
+    
+    //#region help
+
+    else if (message.content == prefix+"help")
+    {
+        //alerts the user to check their pms!
+        message.reply("Check Your Messages, Fam!");
+
+        //sends message to user of all the help things
+        message.author.send(" \n ``` \n COMMANDS \n ``` \n You can also talk to the bot in private messages, so feel free to!" + bot.user +  " loves to make friends!  \n ```\n Admin \n ``` \n " + prefix + "prefix set <prefix> -> Changes the prefix \n ``` \n Fun \n ``` \n" + prefix + "ily -> Awe, So Sweet! \n" + prefix + "$DisneyQuote -> Gives a random disney quote. \n" +  prefix + "tot_clean -> Gives a truth or truth (clean) \n" + prefix + "tot_dirty -> Gives a truth or truth (dirty) \n " + prefix + "cb <message> -> Talk With " + bot.user + "\n" + prefix  + "echo <message> -> Echos a message \n ``` \n Other \n ``` \n" + prefix + "ping -> Replies with 'pong!' \n " + prefix + "help -> Shows Commands" );
+    }
+    //#endregion
+     
+    //#region  TruthOrDare
+
+    //#region  Clean
+    else if(message.content == prefix+"tot_clean")
+    {
+
+        var Responses = ["Cats Or Dogs?", "What is your favorite animal?", "If you had one wish, what would it be?", "What is your favorite ice cream flavor?", "What is your favorite food?", "What is your favorite name of the opposite sex?", "What is your favorite drink?", "What is your favorite letter, 1-10, yes or no?", "What is your dream job?", "Pokemon or Digimon?", "What is your favorite pokemon?", "If you had one wish, what would it be?"];
+
+
+        //gets a random quote from the array
+        var Response = Responses[Math.floor(Math.random() * Responses.length)];
+
+
+        //replies with message
+        message.reply(Response);
+    }
+
+    //#endregion
+
+    //#region Dirty
+    else if(message.content == prefix+"tot_dirty")
+    {
+
+        var Responses = ["In the chat, Who would you rather have sex with? Mention Them!", "What is your dirtiest kink?", "When was the last time you masturbated?","Are you a virgin? If not, are you happy who you lost your virginity to?", "Are you a virgin? If not, when was the last time that you had sex?", "What is one of your fantasies?", "How often do you watch porn?", "What is your idea of a dream date?", "Naughtiest thing you've ever done?", "Dom or Sub?", "Have you ever sent nudes?", "If you were the opposite sex for a day, what would you do first?"];
+
+                //gets a random quote from the array
+                var Response = Responses[Math.floor(Math.random() * Responses.length)]; 
+
+                //replies with message
+                message.reply(Response);
+    }
+    //#endregion
+
+
+    //#endregion
+    
+
+    
+
+
+
+    //#region Admin Stuff
+
+    if(message.channel.type == "text" || message.channel.type == "group")
+    {
+      let modrule = message.member.hasPermission("ADMINISTRATOR")       //if the user has ADMIN
+
+      //#region  Changing the Prefix
+      if(message.content.substring(0, prefix.length + 11) == prefix+"prefix set ")
+       {
+           if(message.member.hasPermission(modrule.id))
+          {
+              prefix = message.content.substring(prefix.length + 11, message.content.length);
+              message.channel.send("Prefix for " + bot.user + " set. **New Prefix: " + prefix + "**");
+            }
+          else{
+             message.reply("You Do Not Have Permission!");
+         }
+        }
+    }
+
+
+    //#endregion
+
+
+});
+
+    
+
+    
+//#endregion
+
+
+     
+
+
+
+bot.login('token');                             
