@@ -1,0 +1,111 @@
+//npms
+const economy = require("discord-eco");
+const Discord = require("discord.js");
+
+
+//scripts
+const config = require("./config.json");
+const Index = require('./index.js');
+
+
+var prefix = Index.prefix;
+bot = new Discord.Client();
+
+
+//guess the number
+var gtnActive, _number, turnCount, currentPlayer; 
+
+
+
+//this is for Index and to make sure that if the command is in this script, to stop the other script
+module.exports = {
+    IfUsed: function(message) {
+        return true;
+    }
+};
+
+
+
+    //if there is a message
+bot.on('message', (message) => {
+
+    var lowercaseMessage = message.content.toLowerCase();
+    message.content = lowercaseMessage;
+    prefix = config.prefix;
+
+    if(message.content  ==prefix+"gtn")
+    {
+        message.reply("Starting Guess The Number");
+
+        if(gtnActive == true){
+            message.reply("Game In Progress!");
+        }
+
+        else{
+            gtnActive = true;
+            currentPlayer = message.author;
+            turnCount = 6;
+
+
+            message.reply("Guess a number between 0 and 100, You Have 7 Attempts, Type 'end' If Finished.");
+            _number = Math.floor(Math.random() * 100);
+        }
+    }
+
+
+    //#region Guess The Number
+if(gtnActive == true && message.author == currentPlayer)
+{
+    if(turnCount > 0)
+    {
+
+        var displayedTurnCount = turnCount - 1;
+
+        if(message.content > _number)
+        {
+            message.reply("Number Too High! " + displayedTurnCount + " Turns Left.");
+            turnCount--;
+        }
+        if(message.content < _number)
+        {
+            message.reply("Number Too Low! " + displayedTurnCount + " Turns Left.")
+            turnCount--;
+        }
+        if(message.content == _number)
+        {
+            gtnActive = false;
+
+                //adding to account
+                economy.updateBalance(message.author.id, '100').then((i) => {
+                    message.reply("Correct! You earned $100! Your new balance: " + i.money) // Returns the updated result.
+                });
+                
+        }
+
+    
+        if(message.content == "end")
+        {
+            message.reply("Game Stopped, Answer: " + _number);
+            gtnActive = false;
+            turnCount = 6;
+        }
+
+        else if (turnCount == 0)
+        {
+            message.reply("Out Of Turns! Correct Answer: " + _number);
+            gtnActive = false;
+            turnCount = 6;
+        }
+    }
+
+
+    
+    //#endregion
+}
+    
+})
+
+
+
+
+bot.login(config.token);
