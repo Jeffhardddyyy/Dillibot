@@ -15,3 +15,17 @@ V0.02
 -Made it able to change the prefix
 -Addded truth or dare clean and dirty.
 -Added $help
+
+V0.03 "The Money Bag Update!"
+
+-ADDED: Guess The Number! You earn $100 from this if you get it correct (Administrators can stop it with {prefix}gtn_stop)
+-ADDED: A Money System! This will be worked on a lot, but for right now, just do (prefix)bal
+-ADDED: Feedback so if there is a command that needs arguments (like cleverbot), it helps you if you don't fill in arguments.
+-ADDED: $prefix where it tells you the prefix. (It will always be a dollar sign)
+-ADDED: DilliBot to respond as cleverbot by just tagging him. So you can now do {prefix}cb <message> or @DilliBot <message>
+-ADDED: {prefix}RoastMe where you will get roasted.
+-FIXED: A bug where anyone can change the prefixs, it is now set to people with Administrators only.
+-MADE: the code multiscript (Please Check "V0.03 readme" on github for more information)
+-MADE: It able so commands are no longer case sensitive, making {prefix}ILY and {prefix}ily would do the same thing
+-STARTED: Naming The Versions
+-REMOVED: $is you ded
