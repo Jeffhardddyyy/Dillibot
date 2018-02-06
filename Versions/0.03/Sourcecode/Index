@@ -1,0 +1,129 @@
+//const variables
+const Discord = require("discord.js");
+
+
+//other scripts
+const config = require("./config.json");
+const adminCmds = require('./AdminCommands.js');
+const SimpleCommands = require('./SimpleCommands.js');
+const eco = require('./Eco.js');
+const games = require('./games.js');
+
+
+
+
+var cleverbot = require("cleverbot.io"),
+bot = new Discord.Client();
+cbot = new cleverbot("02jpGIExkRVgrTIa", "UhDuheaS6nYcMSKr3unShnUoDaS7tf7X"); // Set up keys
+
+let prefix = config.prefix;
+
+
+
+//variables
+var modrule;
+
+
+//getting the other script
+
+
+
+//SimpleResponses() is used for any thing basic like {prefix}Ily, and stuff.
+//But it is not used for stuff like Cleverbot. These are just built in fun commands.
+
+
+bot.on('ready', function (evt) {
+
+    //on start
+    console.log("Bot Ready!");
+});
+
+
+//if there is a message
+bot.on('message', (message) => {
+
+    
+
+
+
+    //making the message all lower case so =ILY and =ily does the same thing
+    var lowercaseMessage = message.content.toLowerCase();
+    message.content = lowercaseMessage;
+
+
+
+         if (message.content.startsWith(prefix+"echo"))
+        {//if it's a echo
+            //reply everything after "echo";
+
+            if(message.content == prefix+"echo")
+            {//if the message doesn't have any arguments
+                message.reply("Invalid Arguments, To Use Echo, do " + prefix + "echo {message} , and then, " + bot.user + " will repeat it :D" )
+                message.reply("If you need help, do " + prefix + "help :)")
+            }
+            else {
+                message.channel.send(message.content.substring(prefix.length + "echo".length, message.length));
+          }
+        }
+
+
+
+    //#region CB
+    else if(message.content.startsWith(prefix + "cb")  || message.content.startsWith(bot.user))
+     {
+
+        if(message.content == prefix+"cb" || message.content == bot.user)
+        {//if the message doesn't have any arguments
+            message.reply("Invalid Arguments, To Use CB, do " + prefix + "cb {message} , and then, cleverbot will reply :D" )
+           return message.reply("If you need help, do " + prefix + "help :)")
+        }
+        else
+        {
+        cbot.setNick("sandbox.test"); // Set a nickname
+    
+        cbot.create(function (err, session) { // Initialize Cleverbot
+        
+            cbot.ask(message.content, function (err, response) {
+            return message.reply(response);
+           });
+         });
+        }
+    }
+
+    //#endregion
+    
+    //#region help
+
+    else if (message.content.startsWith(prefix+"help"))
+    {
+        //alerts the user to check their pms!
+        message.reply("Check Your Messages, Fam!");
+
+        //sends message to user of all the help things
+        message.author.send(" \n ``` \n COMMANDS \n ``` \n You can also talk to the bot in private messages, so feel free to!" + bot.user +  " loves to make friends!  \n \n **ADMIN** \n \n " + prefix + "**prefix set <prefix>** -> Changes the prefix \n " + prefix + "**gtn_stop** -> Stops the Guess The Number Game. \n \n**Fun** \n\ \n"  + prefix + "**ily** -> Awe, So Sweet! \n" + prefix + "**DisneyQuote** -> Gives a random disney quote. \n" +  prefix + "**tot_clean** -> Gives a truth or truth (clean) \n" + prefix + "**tot_dirty** -> Gives a truth or truth (dirty) \n " + prefix + "**cb** <message> -> Talk With " + bot.user + "\n" + prefix  + "**echo** <message> -> Echos a message \n " + prefix + "**gtn** -> Guess The Number! \n \n **ECO** \n \n" + prefix + "**Balance** -> Shows Balance \n \n **OTHER** \n \n" + prefix + "**ping** -> Replies with 'pong! and the ping' \n " + prefix + "**help** -> Shows Commands \n **$prefix** -> Shows the prefix" );
+    }
+    //#endregion
+
+    //#region Invite
+
+    else if(message.content == prefix+"invite")
+    {
+        var embed = new Discord.RichEmbed()
+        .addField("Want To Add DilliBot To your server? Press This!", "https://discordapp.com/oauth2/authorize?client_id=407632514593718273&scope=bot&permissions=2146958591" )
+ 
+
+        message.channel.send(embed);
+    }
+
+    if(adminCmds.IfUsed(message.content) || SimpleCommands.IfUsed(message.content) || eco.IfUsed(message.content) || Games.IfUsed(message.content))
+    {
+        return;
+    }
+}
+,);
+
+     //#endregion
+
+
+//the token
+bot.login(config.token);
