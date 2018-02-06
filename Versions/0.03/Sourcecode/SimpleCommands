@@ -1,0 +1,101 @@
+const Index = require('./index.js')
+const Discord = require("discord.js");
+const config = require("./config.json");
+
+var prefix = Index.prefix;
+bot = new Discord.Client();
+
+
+// inside adminCmds.js
+
+
+
+//this is for Index and to make sure that if the command is in this script, to stop the other script
+module.exports = {
+    IfUsed: function(message) {
+        return false;
+    }
+};
+
+
+
+    //if there is a message
+bot.on('message', (message) => {
+
+    var lowercaseMessage = message.content.toLowerCase();
+    message.content = lowercaseMessage;
+    prefix = config.prefix;
+
+    if(message.content == "$prefix")
+        message.channel.send(StatePrefix());
+
+    else if(message.content == prefix+"ping")
+        message.channel.send(Ping());
+
+    else if(message.content == prefix+"tot_clean")
+    {
+        var Responses = ["Cats Or Dogs?", "What is your favorite animal?", "If you had one wish, what would it be?", "What is your favorite ice cream flavor?", "What is your favorite food?", "What is your favorite drink?", "What is your favorite letter, 1-10, yes or no?", "What is your dream job?", "Pokemon or Digimon?", "What is your favorite pokemon?", "If you had one wish, what would it be?", "What is your favorite social media?", "Who is your favorite artist?", "What is your favorite song?", "What music do you listen to?", "What is your favorite meal?", "If you could bring one thing to a stranded island, what would it be?", "How old are you?", "What's your middle name?", "What is the TLDR (Too Long, Don't Read) version of your life?", "What is your favorite school subject?", "What should they have taught in school, but they didn't?", "What is your favorite hobby?", "Pancakes or Waffles?", "When is your birthday?", "What is your perfect weekend?", "What is your favorite TV show?", "Favorite Netflix Series?", "What is one thing on your bucket list?", "When was the last time you brushed your teeth?", "When was the last time you had a shower?", "What is your favorite video game?", "Are you allergic to anything, if so, what?", "Football or Soccer", "Have you ever faked your own birthday to get a free meal?"];
+    
+    
+        //gets a random quote from the array
+        var Response = Responses[Math.floor(Math.random() * Responses.length)];
+    
+        message.reply(Response);
+    }
+    
+    else if(message.content == prefix+"tot_dirty")
+    {
+        var Responses = ["In the chat, Who would you rather have sex with? Mention Them!", "What is your dirtiest kink?", "When was the last time you masturbated?","Are you a virgin? If not, are you happy who you lost your virginity to?", "Are you a virgin? If not, when was the last time that you had sex?", "What is one of your fantasies?", "How often do you watch porn?", "What is your idea of a dream date?", "Naughtiest thing you've ever done?", "Dom or Sub?", "Have you ever sent nudes?", "If you were the opposite sex for a day, what would you do first?", "Have you ever had a wet dream?", "Have you ever humped your pillow and/or stuffed animal?", "Long Sex or Short Sex?", "Do you like sex toys? If so, what is your favorite one?", "Do you like watching people masturbate?", "Favorite Sex position?", "Rough or gentle", "Penis/Bra size?", "When was the last time you masturbated? What was it too?", "During Sex, Are you loud or quiet?", "What colour underwear are you wearing right now?", "Do you like talking naughty?", "Thoughts on hickies?", "Where do you like being touched?", "Which would you rather play: 7 Minutes In Heaven or Spin The Bottle?"];
+
+        //gets a random quote from the array
+        var Response = Responses[Math.floor(Math.random() * Responses.length)]; 
+    
+        message.reply(Response);
+    }
+    
+    else if(message.content.startsWith(prefix + "ily") || message.content.startsWith(prefix+ "i love you"))
+    {
+            //quote list
+            var Responses = ["I love you too", "Sorry, I love Ellissa", "Ty", "I love you too, but this isn't working for me", "k", "I love you too daddy", "I love food more", "I love you more", "I hate you too", "ily2", "ihy2", "Was that sarcastic?", "I love me too", "No, I want to be friends.", "I love you too mommy", "I love you too, you filthy beast!", "-shrug-", "nO bITCH", "Can we just be friends? #FriendZoned #NotClickBait #sorrynotsorry"];
+
+            //gets a random quote from the array
+            var Response = Responses[Math.floor(Math.random() * Responses.length)];
+    
+            message.reply(Response);
+    }
+    
+
+    else if(message.content == prefix+"disneyquote")
+    {
+        var Responses = ["If you keep believing, the dream that you wish will come true. - Cinderella", "“Look at that, Abu! It’s not every day you see a horse with two rear ends.” - Aladdin", "“You know how men are. They think ‘No’ means ‘Yes’ and ‘Get lost’ means ‘Take me, I’m yours.’” - Meg, Hercules", "We're not aiming for the truck! - Buzz Lightyear, Toy Story", "There's a snake in my boot! - Woody, Toy Story", "“What do you want me to do, dress in drag and do the hula?” - Timon, Lion King", "Haku matata - Timon, Lion King", " “Ohana means family. Family means nobody gets left behind or forgotten -Lilo And Stitch"];
+    
+        var Response = Responses[Math.floor(Math.random() * Responses.length)];
+        
+        message.reply(Response);   
+    }
+
+    else if(message.content == prefix+"roastme")
+    {
+        var Roasts = ["I would roast you, \n But it looks like mother nature already did for me.", "I would give you a bad look,  \n but it looks like that you already have one.", "Being Stupid Isn't A Crime, \n I guess you're free to go.", "Please keep talking, \n I love yawning.", "I would slap you with a cheese string, \n But I don't want to make you look better.", "Roasting you? \n Sorry, I don't want to waste my time.", "Your dad called, he wants his cum-back.", "Do you want laid? \n I guess you will have to crawl up a chicken's ass and wait.", "Go grab a condemn, \n and go fuck yourself.", "When my mom told me 'Everyone makes mistakes', \n I think she was talking about you", "Are you born on a highway? \n Because that's where most accidents happen."]
+        
+        var Response = Roasts[Math.floor(Math.random() * Roasts.length)];
+
+        message.reply(Response);
+    }
+
+});
+
+
+
+
+function StatePrefix() {
+    
+    return "The Current Prefix For " +  bot.user + "is : **"  + prefix + "**";
+    
+}
+
+function Ping()
+{
+   return "PONG!";
+}
+bot.login(config.token);
