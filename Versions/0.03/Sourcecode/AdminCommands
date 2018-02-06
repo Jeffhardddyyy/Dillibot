@@ -1,0 +1,103 @@
+const Index = require('./index.js')
+const Discord = require("discord.js");
+const config = require("./config.json");
+const games = require('./games.js');
+
+const fs = require("fs");
+
+var prefix;
+bot = new Discord.Client();
+
+
+var modrule; 
+
+
+
+// inside adminCmds.js
+
+
+
+//this is for Index and to make sure that if the command is in this script, to stop the other script
+module.exports = {
+    IfUsed: function(message) {
+        return false;
+    }
+};
+
+
+
+    //if there is a message
+bot.on('message', (message) => {
+    
+    var lowercaseMessage = message.content.toLowerCase();
+    message.content = lowercaseMessage;
+    prefix = config.prefix;
+
+
+    //#region  Applying Modrule
+    if(message.channel.type == "dm" || message.member.hasPermission("ADMINISTRATOR"))
+    {
+        modrule = true;
+    }
+    else{
+
+        modrule = false;
+
+    }
+    //#endregion
+
+    
+
+
+    if(message.content.substring(0, prefix.length + 11) == prefix+"prefix set ")
+    {        
+        if(modrule == true)
+         {
+
+             if(message.content.startsWith(config.prefix + "prefix set ")) {
+                 // Gets the prefix from the command (eg. "!prefix set +" it will take the "+" from it)
+                 let newPrefix = message.content.substring(config.prefix.length + "prefix set ".length, message.content.length);
+                 // change the configuration in memory
+                 config.prefix = newPrefix;
+               
+                 // Now we have to save the file.
+                 fs.writeFile("./config.json", JSON.stringify(config), (err) => console.error);
+
+                 message.reply("Prefix Set! **New Prefix: " + newPrefix + "**");
+               } 
+             
+         }
+         else if(modrule == false)
+         {
+             return message.reply("You Do Not Have Permission!");
+     
+         }
+    }
+
+
+
+    if(message.content == prefix+"gtn_stop")
+    {
+                
+        if(modrule == true)
+        {
+            if(!games.gtnActive)
+            {//if the game is active when the admin stops it
+                games.gtnActive = false;
+                return message.channel.send("Guess The Number Game, Stopped By " + message.author);
+            }
+            else if (games.gtnActive)
+            {//if the admin tries to stop the game when it is not active
+               return  message.channel.send("No Game Active!");
+            }
+        }
+        else{
+            return message.reply("You Do Not Have Permission!");
+        }
+    }
+})
+    
+
+
+
+bot.login(config.token);
